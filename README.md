@@ -1,0 +1,1 @@
+go製簡易linker.
