@@ -1,1 +1,1 @@
-go製簡易linker.
+ELF linker written in Go.
