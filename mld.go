@@ -15,12 +15,23 @@ const (
 	ExitFail
 )
 
-func setSection()
+type SpecificSection string
+
+// 特殊セクションのlist
+const (
+	DATA     SpecificSection = ".data"
+	BSS      SpecificSection = ".bss"
+	SYMTAB   SpecificSection = ".symtab"
+	STRTAB   SpecificSection = ".strtab"
+	SHSTRTAB SpecificSection = ".shstrtab"
+)
+
+func setSection() {}
 
 // sectionを走査して、
 // 	1 data, bssは消す
 // 	2 sym, str系のsectionを書き換える
-// を行う.
+// などの特殊セクション(SectionType)に対するを行う.
 func ReWriteSection(sections []*elf.Section, secfile *os.File) error {
 	for _, sec := range sections {
 		fmt.Printf("secname: %s  ", sec.Name)
@@ -49,7 +60,6 @@ func ReWriteSection(sections []*elf.Section, secfile *os.File) error {
 }
 
 func Run() int {
-
 	fileName := os.Args[1]
 	fmt.Println("filename:", fileName)
 
@@ -111,12 +121,14 @@ func getProgHdrNum(sections []*elf.Section) int {
 	return count
 }
 
-// TODO
-func rewriteSection(section string, data []byte) []byte {
+// sectionを書き換える。
+// 変更後のbyte数は、後にtmpに書き出す(Write())時の返り値で判断する
+func rewriteSection(section SpecificSection, data []byte) []byte {
 	switch section {
-	case ".symtab":
-	case ".strtab":
-	case ".shstrtab":
+	case SYMTAB:
+
+	case STRTAB:
+	case SHSTRTAB:
 	default:
 	}
 	return data
